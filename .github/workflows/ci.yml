@@ -4,30 +4,34 @@ on:
   push:
     branches:
       - main
-
   pull_request:
     branches:
       - main
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - name: Descargar código
-      uses: actions/checkout@v4
+      - name: Descargar código
+        uses: actions/checkout@v4
 
-    - name: Instalar .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: '10.0.x'
+      - name: Instalar .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
 
-    - name: Restaurar dependencias
-      run: dotnet restore Mundial2026API/Mundial2026API.sln
+      - name: Restaurar dependencias API
+        run: dotnet restore Mundial2026API/Mundial2026API/Mundial2026API.csproj
 
-    - name: Compilar
-      run: dotnet build Mundial2026API/Mundial2026API.sln --no-restore
+      - name: Restaurar dependencias Tests
+        run: dotnet restore Mundial2026API/Mundial2026API.Tests/Mundial2026API.Tests.csproj
 
-    - name: Ejecutar tests
-      run: dotnet test Mundial2026API/Mundial2026API.sln --no-build --verbosity normal
+      - name: Compilar API
+        run: dotnet build Mundial2026API/Mundial2026API/Mundial2026API.csproj --no-restore --configuration Release
+
+      - name: Compilar Tests
+        run: dotnet build Mundial2026API/Mundial2026API.Tests/Mundial2026API.Tests.csproj --no-restore --configuration Release
+
+      - name: Ejecutar tests
+        run: dotnet test Mundial2026API/Mundial2026API.Tests/Mundial2026API.Tests.csproj --no-build --configuration Release --verbosity normal
