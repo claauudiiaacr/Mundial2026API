@@ -10,26 +10,24 @@ on:
       - main
 
 jobs:
-
   build:
 
     runs-on: ubuntu-latest
 
     steps:
-
     - name: Descargar código
       uses: actions/checkout@v4
 
     - name: Instalar .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: '8.0.x'
+        dotnet-version: '10.0.x'
 
     - name: Restaurar dependencias
-      run: dotnet restore
+      run: dotnet restore Mundial2026API/Mundial2026API.sln
 
-    - name: Compilar proyecto
-      run: dotnet build --no-restore
+    - name: Compilar
+      run: dotnet build Mundial2026API/Mundial2026API.sln --no-restore
 
     - name: Ejecutar tests
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test Mundial2026API/Mundial2026API.sln --no-build --verbosity normal
